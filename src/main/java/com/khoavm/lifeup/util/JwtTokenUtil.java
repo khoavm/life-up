@@ -1,5 +1,6 @@
 package com.khoavm.lifeup.util;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Map;
 
@@ -27,5 +29,18 @@ public class JwtTokenUtil {
                 .expiration(new Date((new Date()).getTime() + 3600000))
                 .signWith(key).compact();
     }
+
+    public Claims parseJwtToken(String jwt){
+        SecretKey key = Keys.hmacShaKeyFor(
+                secret.getBytes(StandardCharsets.UTF_8));
+
+        return Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(jwt)
+                .getPayload();
+    }
+
+
 
 }

@@ -28,7 +28,7 @@ public class JwtGeneratorFilter extends OncePerRequestFilter {
         Map<String, Object> jwtClaim = new HashMap<>();
         jwtClaim.put("user", username);
         var jwt = jwtTokenUtil.genToken(jwtClaim);
-        response.setHeader("Authorization", "Bearer " + jwt);
+        response.setHeader("Authorization", jwt);
         filterChain.doFilter(request, response);
     }
 

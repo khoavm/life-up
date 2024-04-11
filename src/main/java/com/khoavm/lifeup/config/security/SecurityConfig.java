@@ -34,9 +34,9 @@ public class SecurityConfig {
                         httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/user/login", "/user/sign-up").permitAll()
-                        .requestMatchers("/user/test").authenticated()
+                        .requestMatchers("/user/test", "/task", "/task/**").authenticated()
                 )
-                .addFilterBefore(traceIdFilter,BasicAuthenticationFilter.class)
+                .addFilterBefore(traceIdFilter, BasicAuthenticationFilter.class)
                 .addFilterBefore(jwtValidatorFilter, BasicAuthenticationFilter.class)
                 .addFilterAfter(jwtGeneratorFilter, BasicAuthenticationFilter.class)
                 .httpBasic(Customizer.withDefaults());

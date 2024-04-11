@@ -2,12 +2,11 @@ package com.khoavm.lifeup.module.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 /**
@@ -25,5 +24,5 @@ public class UserDto implements Serializable {
     String phone;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     String password;
-    Instant createdAt;
+    OffsetDateTime createdAt;
 }

@@ -1,6 +1,7 @@
 package com.khoavm.lifeup.module.user.controller;
 
 
+import com.khoavm.lifeup.config.security.Context;
 import com.khoavm.lifeup.module.user.service.UserService;
 import com.khoavm.lifeup.util.ResponseUtil;
 import com.khoavm.lifeup.module.common.dto.ResponseDto;
@@ -33,9 +34,9 @@ public class UserController {
         return ResponseUtil.DefaultCreateSuccessResponse(user);
     }
     @PostMapping("/login")
-    public ResponseEntity<ResponseDto> login(Principal authentication){
+    public ResponseEntity<ResponseDto> login(){
         try {
-            var userInfo =  userService.getUserDetailByUsernameOrEmailOrPhone(authentication.getName());
+            var userInfo = userService.getUserDetailById(Context.getUserId());
             return ResponseUtil.DefaultCreateSuccessResponse(userInfo);
         }catch (Exception e){
             System.out.println(e);

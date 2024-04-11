@@ -1,5 +1,6 @@
 package com.khoavm.lifeup.config.filter;
 
+import com.khoavm.lifeup.config.security.Context;
 import com.khoavm.lifeup.util.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -23,12 +24,13 @@ public class JwtGeneratorFilter extends OncePerRequestFilter {
     JwtTokenUtil jwtTokenUtil;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        var username = authentication.getName();
+
         Map<String, Object> jwtClaim = new HashMap<>();
-        jwtClaim.put("user", username);
+        jwtClaim.put("user", Context.getUserName());
+        jwtClaim.put("id", Context.getUserId());
         var jwt = jwtTokenUtil.genToken(jwtClaim);
         response.setHeader("Authorization", jwt);
+
         filterChain.doFilter(request, response);
     }
 

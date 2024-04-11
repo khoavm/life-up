@@ -1,10 +1,9 @@
 package com.khoavm.lifeup.module.user.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -32,7 +31,7 @@ public class User {
     private String password;
 
     @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    private OffsetDateTime createdAt;
 
     @OneToMany(mappedBy = "user")
     private Set<UserCredential> userCredentials = new LinkedHashSet<>();

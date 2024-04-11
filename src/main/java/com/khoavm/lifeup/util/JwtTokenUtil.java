@@ -30,6 +30,7 @@ public class JwtTokenUtil {
                 .signWith(key).compact();
     }
 
+
     public Claims parseJwtToken(String jwt){
         SecretKey key = Keys.hmacShaKeyFor(
                 secret.getBytes(StandardCharsets.UTF_8));

@@ -35,8 +35,12 @@ public class CustomAuthenticationProvider  implements AuthenticationProvider {
         if (!passwordEncoder.matches(pwd,userInfo.get().getPassword())){
             throw new BadCredentialsException("user credential is not correct");
         }
+        var newAuthentication =  new UsernamePasswordAuthenticationToken(username, pwd);
+        AuthenticationDetail authenticationDetail = new AuthenticationDetail();
+        authenticationDetail.userId(userInfo.get().getId());
+        newAuthentication.setDetails(authenticationDetail);
 
-        return new UsernamePasswordAuthenticationToken(username, pwd, Collections.singletonList(new SimpleGrantedAuthority("haha")));
+        return newAuthentication;
     }
 
     @Override

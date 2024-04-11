@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -28,9 +29,17 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public UserDto getUserDetailById(UUID id) {
+        var userInfo = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("not found user name"));
+
+        return UserMapper.UserToDto(userInfo);
+    }
+
+    @Override
     public UserDto signUp(UserDto createUser) {
         createUser.setId(UUID.randomUUID());
-        createUser.setCreatedAt(Instant.now());
+        createUser.setCreatedAt(OffsetDateTime.now());
         var hashPassword = passwordEncoder.encode(createUser.getPassword());
         createUser.setPassword(hashPassword);
         var newUser = userRepository.save(UserMapper.UserFromDto(createUser));

@@ -1,5 +1,6 @@
 package com.khoavm.lifeup.module.user.entity;
 
+import com.khoavm.lifeup.module.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,7 +14,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "\"user\"", schema = "life_up")
-public class User {
+public class User extends BaseEntity {
     @Id
     @Column(name = "id", nullable = false)
     private UUID id;
@@ -35,5 +36,6 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private Set<UserCredential> userCredentials = new LinkedHashSet<>();
+
 
 }

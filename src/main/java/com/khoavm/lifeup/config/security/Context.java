@@ -1,5 +1,6 @@
 package com.khoavm.lifeup.config.security;
 
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -21,6 +22,6 @@ public class Context {
         if (authDetail instanceof AuthenticationDetail){
             return ((AuthenticationDetail) authDetail).userId();
         }
-        return null;
+        return new UUID(0L, 0L);
     }
 }

@@ -1,6 +1,7 @@
 package com.khoavm.lifeup.config.filter;
 
 import com.khoavm.lifeup.config.security.Context;
+import com.khoavm.lifeup.module.common.dto.JwtAdditionalClaim;
 import com.khoavm.lifeup.util.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,11 +25,8 @@ public class JwtGeneratorFilter extends OncePerRequestFilter {
     JwtTokenUtil jwtTokenUtil;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
-        Map<String, Object> jwtClaim = new HashMap<>();
-        jwtClaim.put("user", Context.getUserName());
-        jwtClaim.put("id", Context.getUserId());
-        var jwt = jwtTokenUtil.genToken(jwtClaim);
+        JwtAdditionalClaim jwtAdditionalClaim = new JwtAdditionalClaim(Context.getUserId(), Context.getUserName());
+        var jwt = jwtTokenUtil.genToken(jwtAdditionalClaim);
         response.setHeader("Authorization", jwt);
 
         filterChain.doFilter(request, response);
@@ -36,6 +34,6 @@ public class JwtGeneratorFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-       return !request.getServletPath().contains("/user/login");
+       return !request.getServletPath().endsWith("/login");
     }
 }

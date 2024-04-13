@@ -33,15 +33,6 @@ public class UserController {
         var user = userService.signUp(userDto);
         return ResponseUtil.DefaultCreateSuccessResponse(user);
     }
-    @PostMapping("/login")
-    public ResponseEntity<ResponseDto> login(){
-        try {
-            var userInfo = userService.getUserDetailById(Context.getUserId());
-            return ResponseUtil.DefaultCreateSuccessResponse(userInfo);
-        }catch (Exception e){
-            System.out.println(e);
-        }
-        return null;
-    }
+
 
 }

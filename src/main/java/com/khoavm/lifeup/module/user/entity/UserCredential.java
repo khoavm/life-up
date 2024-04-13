@@ -1,5 +1,7 @@
 package com.khoavm.lifeup.module.user.entity;
 
+import com.khoavm.lifeup.module.common.dto.OAuth2Provider;
+import com.khoavm.lifeup.module.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +12,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "user_credential", schema = "life_up")
-public class UserCredential {
+public class UserCredential extends BaseEntity {
     @Id
     @Column(name = "id", nullable = false)
     private UUID id;
@@ -19,8 +21,11 @@ public class UserCredential {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+
+
     @Column(name = "provider", nullable = false)
-    private String provider;
+    @Enumerated(EnumType.STRING)
+    private OAuth2Provider provider;
 
     @Column(name = "provider_id", nullable = false)
     private String providerId;

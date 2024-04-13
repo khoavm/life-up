@@ -4,7 +4,8 @@ CREATE TABLE if not exists "user" (
                        email VARCHAR(255) UNIQUE NOT NULL,
                        phone VARCHAR(255) UNIQUE, -- Can be adjusted based on data type preference for phone numbers
                        password VARCHAR(255),  -- Optional for phone number login
-                       created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+                       created_at timestamp WITH TIME ZONE,
+                       updated_at timestamp WITH TIME ZONE
 );
 
 CREATE TABLE if not exists user_credential (
@@ -14,5 +15,7 @@ CREATE TABLE if not exists user_credential (
                                   provider_id VARCHAR(255) NOT NULL,
                                   access_token VARCHAR(255), -- Optional, store securely if used
                                   refresh_token VARCHAR(255), -- Optional, store securely if used
+                                  created_at timestamp WITH TIME ZONE,
+                                  updated_at timestamp WITH TIME ZONE,
                                   CONSTRAINT unique_provider_user UNIQUE (user_id, provider) -- Ensures a user can only have one record per provider
 );

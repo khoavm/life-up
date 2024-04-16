@@ -23,10 +23,10 @@ public class ContextImpl implements  Context {
 
     HttpServletRequest request;
     private Tracer tracer;
-    private final static SecurityContext context = SecurityContextHolder.getContext();
+
 
     public  UUID getUserId() {
-        var authDetail = context.getAuthentication().getDetails();
+        var authDetail = SecurityContextHolder.getContext().getAuthentication().getDetails();
         if (authDetail instanceof AuthenticationDetail){
             return ((AuthenticationDetail) authDetail).userId();
         }
@@ -35,7 +35,7 @@ public class ContextImpl implements  Context {
 
     @Override
     public String getUsername() {
-        return context.getAuthentication().getName();
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
     @Override

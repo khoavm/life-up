@@ -13,4 +13,5 @@ public interface UserService {
     UserDto getUserDetailById(UUID id);
     UserDto signUp(UserDto userDto);
     String handleOauth2Callback(Authentication token, OAuth2Provider provider);
+    UserDto getUserDetail();
 }

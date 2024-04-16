@@ -1,7 +1,7 @@
 package com.khoavm.lifeup.module.task.controller;
 
 
-import com.khoavm.lifeup.module.common.dto.Page;
+import com.khoavm.lifeup.module.common.dto.PageDto;
 import com.khoavm.lifeup.module.common.dto.ResponseDto;
 import com.khoavm.lifeup.module.task.dto.CreateTaskDto;
 import com.khoavm.lifeup.module.task.dto.TaskDto;
@@ -12,8 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/task")
@@ -38,7 +36,7 @@ public class TaskController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDto<Page<TaskDto>>> getTaskList(){
+    public ResponseEntity<ResponseDto<PageDto<TaskDto>>> getTaskList(){
         var taskList = taskService.searchListTask();
         return ResponseUtil.Ok(taskList);
     }

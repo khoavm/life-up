@@ -30,5 +30,11 @@ public class UserController {
         return ResponseUtil.Created(user);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<ResponseDto<UserDto>> login() {
+        var userInfo = userService.getUserDetail();
+        return ResponseUtil.Ok(userInfo);
+    }
+
 
 }

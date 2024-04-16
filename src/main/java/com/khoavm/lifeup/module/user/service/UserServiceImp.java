@@ -2,6 +2,7 @@ package com.khoavm.lifeup.module.user.service;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.khoavm.lifeup.config.security.Context;
 import com.khoavm.lifeup.module.common.dto.GoogleUser;
 import com.khoavm.lifeup.module.common.dto.JwtAdditionalClaim;
 import com.khoavm.lifeup.module.common.dto.OAuth2Provider;
@@ -36,6 +37,8 @@ public class UserServiceImp implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtil jwtTokenUtil;
     private final ObjectMapper mapper;
+
+    private final Context context;
     @Override
     public UserDto getUserDetailByUsernameOrEmailOrPhone(String text) {
         var userInfo = userRepository.findByUsernameOrEmailOrPhone(text, text, text)
@@ -75,6 +78,11 @@ public class UserServiceImp implements UserService {
         }
 
 
+    }
+
+    @Override
+    public UserDto getUserDetail() {
+        return getUserDetailById(context.getUserId());
     }
 
     private String handleGoogleCallBack(OAuth2AuthenticationToken token){

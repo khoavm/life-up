@@ -5,10 +5,11 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class Page<T> {
+public class PageDto<T> {
     private int page;
     private int total;
     private int size;
 
     List<T> list;
+
 }

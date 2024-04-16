@@ -7,38 +7,38 @@ import com.khoavm.lifeup.module.task.entity.Task;
 public class TaskMapper {
     public static TaskDto TaskToDto(Task task){
         var taskDto = new TaskDto();
-        taskDto.id(task.getId());
-        taskDto.name(task.getName());
-        taskDto.description(task.getDescription());
-        taskDto.createdAt(task.getCreatedAt());
-        taskDto.updatedAt(task.getUpdatedAt());
-        taskDto.coinReward(task.getCoinReward());
-        taskDto.deadline(task.getDeadline());
-        taskDto.difficulty(task.getDifficulty());
-        taskDto.userId(task.getUserId());
-        taskDto.importance(task.getImportance());
-        taskDto.isRepeat(task.getIsRepeat());
-        taskDto.repeatTimes(task.getRepeatTimes());
-        taskDto.status(task.getStatus());
-        taskDto.startTime(task.getStartTime());
+        taskDto.setId(task.getId());
+        taskDto.setName(task.getName());
+        taskDto.setDescription(task.getDescription());
+        taskDto.setCreatedAt(task.getCreatedAt());
+        taskDto.setUpdatedAt(task.getUpdatedAt());
+        taskDto.setCoinReward(task.getCoinReward());
+        taskDto.setDeadline(task.getDeadline());
+        taskDto.setDifficulty(task.getDifficulty());
+        taskDto.setUserId(task.getUserId());
+        taskDto.setImportance(task.getImportance());
+        taskDto.setIsRepeat(task.getIsRepeat());
+        taskDto.setRepeatTimes(task.getRepeatTimes());
+        taskDto.setStatus(task.getStatus());
+        taskDto.setStartTime(task.getStartTime());
         return taskDto;
     }
 
     public static Task TaskFromDto(TaskDto taskDto){
         var task = new Task();
-        task.setId(taskDto.id());
-        task.setName(taskDto.name());
-        task.setDescription(taskDto.description());
-        task.setCreatedAt(taskDto.createdAt());
-        task.setUpdatedAt(taskDto.updatedAt());
-        task.setCoinReward(taskDto.coinReward());
-        task.setDeadline(taskDto.deadline());
-        task.setDifficulty(taskDto.difficulty());
-        task.setImportance(taskDto.importance());
-        task.setIsRepeat(taskDto.isRepeat());
-        task.setRepeatTimes(taskDto.repeatTimes());
-        task.setStatus(taskDto.status());
-        task.setStartTime(taskDto.startTime());
+        task.setId(taskDto.getId());
+        task.setName(taskDto.getName());
+        task.setDescription(taskDto.getDescription());
+        task.setCreatedAt(taskDto.getCreatedAt());
+        task.setUpdatedAt(taskDto.getUpdatedAt());
+        task.setCoinReward(taskDto.getCoinReward());
+        task.setDeadline(taskDto.getDeadline());
+        task.setDifficulty(taskDto.getDifficulty());
+        task.setImportance(taskDto.getImportance());
+        task.setIsRepeat(taskDto.getIsRepeat());
+        task.setRepeatTimes(taskDto.getRepeatTimes());
+        task.setStatus(taskDto.getStatus());
+        task.setStartTime(taskDto.getStartTime());
         return task;
     }
 

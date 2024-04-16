@@ -1,5 +1,6 @@
 package com.khoavm.lifeup.module.task.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Accessors(chain = true, fluent = true)
+@Accessors(chain = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TaskDto implements Serializable {
@@ -30,12 +31,18 @@ public class TaskDto implements Serializable {
     private Boolean isRepeat;
     private Integer repeatDuration;
     private Integer repeatTimes;
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
     private OffsetDateTime startTime;
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
     private OffsetDateTime deadline;
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
+    private OffsetDateTime createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
+    private OffsetDateTime updatedAt;
     private Integer importance;
     private Integer difficulty;
     private TaskStatus status;
-    private OffsetDateTime createdAt;
-    private OffsetDateTime updatedAt;
+
+
     private UUID userId;
 }

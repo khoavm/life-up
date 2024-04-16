@@ -1,5 +1,6 @@
 package com.khoavm.lifeup.module.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -30,5 +31,10 @@ public class UserDto implements Serializable {
     private String phone;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
     private OffsetDateTime createdAt;
+
+    private OffsetDateTime updatedAt;
+
 }

@@ -2,9 +2,10 @@ package com.khoavm.lifeup.module.task.service;
 
 
 import com.khoavm.lifeup.config.security.Context;
-import com.khoavm.lifeup.config.security.ContextImpl;
 import com.khoavm.lifeup.exception.NotFoundException;
-import com.khoavm.lifeup.module.common.dto.Page;
+import com.khoavm.lifeup.module.common.dto.PageDto;
+import com.khoavm.lifeup.module.common.dto.Query;
+import com.khoavm.lifeup.module.common.mapper.Mapper;
 import com.khoavm.lifeup.module.task.constant.TaskStatus;
 import com.khoavm.lifeup.module.task.dto.CreateTaskDto;
 import com.khoavm.lifeup.module.task.dto.TaskDto;
@@ -16,6 +17,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -24,12 +26,13 @@ public class TaskServiceImpl implements TaskService{
 
 
     private final TaskRepository taskRepository;
-    private Context context;
+    private Context ctx;
+    private Mapper commonMapper;
     @Override
     public TaskDto createTask(CreateTaskDto createTaskDto) {
         var newTask = TaskMapper.TaskFromCreateDto(createTaskDto);
         newTask.setStatus(TaskStatus.CREATED);
-        newTask.setUserId(context.getUserId());
+        newTask.setUserId(ctx.getUserId());
         newTask = taskRepository.save(newTask);
         return TaskMapper.TaskToDto(newTask);
     }
@@ -42,19 +45,49 @@ public class TaskServiceImpl implements TaskService{
     }
 
     @Override
-    public Page<TaskDto> searchListTask() {
-        return null;
+    public PageDto<TaskDto> searchListTask() {
+        var spec = buildTaskQuerySpecification(ctx.getQuery());
+        var page = ctx.getPageable();
+        var result = taskRepository.findAll(spec, page)
+                .map(TaskMapper::TaskToDto);
+
+        return commonMapper.pageToDto(result);
     }
 
+
+
+    private Specification<Task> buildTaskQuerySpecification(List<Query> queryList) {
+        Specification<Task> spec = null;
+        Specification<Task> tempSpec;
+        for (Query query : queryList) {
+            switch (query.field()) {
+                case "name":
+                    tempSpec = byName(query.value());
+                    break;
+                case "description":
+                    tempSpec = byDescription(query.value());
+                    break;
+                default:
+                    continue;
+            }
+            spec = (spec == null) ? Specification.where(tempSpec) : spec.and(tempSpec);
+        }
+        return spec;
+    }
 
     private Specification<Task> byName(String name) {
 
         return (root, query, builder) ->
-                builder.like( builder.lower(root.get(Task_.name)), "%" + name.toLowerCase() + "%");
+                builder.like( builder.lower(root.get(Task_.name)), "%"+ name.toLowerCase() + "%");
     }
 
     private Specification<Task> byDescription(String description) {
         return (root, query, builder) ->
                 builder.like( builder.lower(root.get(Task_.description)), "%" + description.toLowerCase() + "%");
+    }
+
+    private Specification<Task> byUserId(UUID id){
+        return (root, query, builder) ->
+                builder.equal(root.get(Task_.id), id);
     }
 }

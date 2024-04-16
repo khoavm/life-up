@@ -2,7 +2,7 @@ CREATE TABLE if not exists "user" (
                        id UUID PRIMARY KEY, -- Generates a new UUID v4 for each record
                        username VARCHAR(255) UNIQUE NOT NULL,
                        email VARCHAR(255) UNIQUE NOT NULL,
-                       phone VARCHAR(255) UNIQUE, -- Can be adjusted based on data type preference for phone numbers
+                       phone VARCHAR(255), -- Can be adjusted based on data type preference for phone numbers
                        password VARCHAR(255),  -- Optional for phone number login
                        created_at timestamp WITH TIME ZONE,
                        updated_at timestamp WITH TIME ZONE

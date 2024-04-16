@@ -1,12 +1,11 @@
 package com.khoavm.lifeup.module.task.controller;
 
 
+import com.khoavm.lifeup.module.common.dto.Page;
 import com.khoavm.lifeup.module.common.dto.ResponseDto;
 import com.khoavm.lifeup.module.task.dto.CreateTaskDto;
 import com.khoavm.lifeup.module.task.dto.TaskDto;
 import com.khoavm.lifeup.module.task.service.TaskService;
-import com.khoavm.lifeup.module.user.dto.UserDto;
-import com.khoavm.lifeup.module.user.service.UserService;
 import com.khoavm.lifeup.util.ResponseUtil;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -14,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/task")
@@ -27,9 +26,21 @@ public class TaskController {
 
 
     @PostMapping
-    public ResponseEntity<ResponseDto> createTask(@RequestBody CreateTaskDto createTaskDto){
+    public ResponseEntity<ResponseDto<TaskDto>> createTask(@RequestBody CreateTaskDto createTaskDto){
         var task = taskService.createTask(createTaskDto);
-        return ResponseUtil.DefaultCreateSuccessResponse(task);
+        return ResponseUtil.Created(task);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseDto<TaskDto>> getTaskDetail(@PathVariable String id){
+        var task = taskService.getTaskDetail(id);
+        return ResponseUtil.Ok(task);
+    }
+
+    @GetMapping
+    public ResponseEntity<ResponseDto<Page<TaskDto>>> getTaskList(){
+        var taskList = taskService.searchListTask();
+        return ResponseUtil.Ok(taskList);
     }
 
 }

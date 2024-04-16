@@ -1,6 +1,7 @@
-package com.khoavm.lifeup.config.filter;
+package com.khoavm.lifeup.filter;
 
 import com.khoavm.lifeup.config.security.Context;
+import com.khoavm.lifeup.config.security.ContextImpl;
 import com.khoavm.lifeup.module.common.dto.JwtAdditionalClaim;
 import com.khoavm.lifeup.util.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
@@ -8,14 +9,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @AllArgsConstructor
@@ -23,9 +20,10 @@ import java.util.Map;
 public class JwtGeneratorFilter extends OncePerRequestFilter {
 
     JwtTokenUtil jwtTokenUtil;
+    Context context;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        JwtAdditionalClaim jwtAdditionalClaim = new JwtAdditionalClaim(Context.getUserId(), Context.getUserName());
+        JwtAdditionalClaim jwtAdditionalClaim = new JwtAdditionalClaim(context.getUserId(), context.getUsername());
         var jwt = jwtTokenUtil.genToken(jwtAdditionalClaim);
         response.setHeader("Authorization", jwt);
 

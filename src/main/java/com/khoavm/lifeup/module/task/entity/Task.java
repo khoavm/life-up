@@ -4,6 +4,8 @@ import com.khoavm.lifeup.module.common.entity.BaseEntity;
 import com.khoavm.lifeup.module.task.constant.TaskStatus;
 import com.khoavm.lifeup.module.user.entity.User;
 import jakarta.persistence.*;
+import jakarta.persistence.metamodel.SingularAttribute;
+import jakarta.persistence.metamodel.StaticMetamodel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -68,3 +70,5 @@ public class Task extends BaseEntity {
         this.isRepeat = isRepeat;
     }
 }
+
+

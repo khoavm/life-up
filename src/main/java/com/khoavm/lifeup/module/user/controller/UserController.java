@@ -1,7 +1,6 @@
 package com.khoavm.lifeup.module.user.controller;
 
 
-import com.khoavm.lifeup.config.security.Context;
 import com.khoavm.lifeup.module.user.service.UserService;
 import com.khoavm.lifeup.util.ResponseUtil;
 import com.khoavm.lifeup.module.common.dto.ResponseDto;
@@ -10,10 +9,7 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
 
 @RestController
 @RequestMapping("/user")
@@ -24,14 +20,14 @@ public class UserController {
 
     private final UserService userService;
     @GetMapping("/test")
-    public ResponseEntity<ResponseDto> createHabit(){
-        return ResponseUtil.DefaultCreateSuccessResponse("ok");
+    public ResponseEntity<ResponseDto<String>> createHabit(){
+        return ResponseUtil.Created("ok");
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<ResponseDto> signUp(@RequestBody UserDto userDto){
+    public ResponseEntity<ResponseDto<UserDto>> signUp(@RequestBody UserDto userDto){
         var user = userService.signUp(userDto);
-        return ResponseUtil.DefaultCreateSuccessResponse(user);
+        return ResponseUtil.Created(user);
     }
 
 

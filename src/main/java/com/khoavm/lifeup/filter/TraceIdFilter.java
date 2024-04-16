@@ -1,5 +1,6 @@
-package com.khoavm.lifeup.config.filter;
+package com.khoavm.lifeup.filter;
 
+import com.khoavm.lifeup.config.security.Context;
 import io.micrometer.tracing.Span;
 import io.micrometer.tracing.Tracer;
 import jakarta.servlet.FilterChain;
@@ -19,13 +20,12 @@ public class TraceIdFilter extends OncePerRequestFilter {
 
 
 
-    private Tracer tracer;
+    Context context;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        var traceContext =  tracer.currentTraceContext().context();
+        var traceId = context.getTraceId();
 
-        if (traceContext != null) {
-            var traceId = traceContext.traceId();
+        if (traceId != null) {
             response.setHeader("X-Trace-Id", traceId);
         }
        filterChain.doFilter(request, response);

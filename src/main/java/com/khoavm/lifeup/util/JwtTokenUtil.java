@@ -1,6 +1,5 @@
 package com.khoavm.lifeup.util;
 
-import com.khoavm.lifeup.config.security.Context;
 import com.khoavm.lifeup.module.common.dto.JwtAdditionalClaim;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

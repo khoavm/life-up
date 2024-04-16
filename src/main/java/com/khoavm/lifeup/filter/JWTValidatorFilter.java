@@ -1,4 +1,4 @@
-package com.khoavm.lifeup.config.filter;
+package com.khoavm.lifeup.filter;
 
 import com.khoavm.lifeup.config.security.AuthenticationDetail;
 import com.khoavm.lifeup.util.JwtTokenUtil;
@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @AllArgsConstructor
 @Component
@@ -57,7 +58,9 @@ public class JWTValidatorFilter extends OncePerRequestFilter {
 
 
     @Override protected boolean shouldNotFilter(HttpServletRequest request) {
-        return List.of("/user/login", "/user/sign-up").contains(request.getServletPath());}
+
+        return Stream.of("/user/login", "/user/sign-up").anyMatch(path -> request.getServletPath().endsWith(path));
+    }
 
 
 }

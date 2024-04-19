@@ -1,23 +1,29 @@
 package com.khoavm.lifeup.module.task.service;
 
 
-import com.khoavm.lifeup.config.security.Context;
+import com.khoavm.lifeup.config.context.Context;
+import com.khoavm.lifeup.exception.InvalidArgumentException;
 import com.khoavm.lifeup.exception.NotFoundException;
+import com.khoavm.lifeup.exception.PreConditionFailedException;
 import com.khoavm.lifeup.module.common.dto.PageDto;
 import com.khoavm.lifeup.module.common.dto.Query;
 import com.khoavm.lifeup.module.common.mapper.Mapper;
 import com.khoavm.lifeup.module.task.constant.TaskStatus;
 import com.khoavm.lifeup.module.task.dto.CreateTaskDto;
 import com.khoavm.lifeup.module.task.dto.TaskDto;
+import com.khoavm.lifeup.module.task.dto.UpdateTaskDto;
 import com.khoavm.lifeup.module.task.entity.Task;
 import com.khoavm.lifeup.module.task.entity.Task_;
 import com.khoavm.lifeup.module.task.mapper.TaskMapper;
 import com.khoavm.lifeup.module.task.repository.TaskRepository;
+import com.khoavm.lifeup.util.CommonUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -28,6 +34,7 @@ public class TaskServiceImpl implements TaskService{
     private final TaskRepository taskRepository;
     private Context ctx;
     private Mapper commonMapper;
+    private CommonUtil commonUtil;
     @Override
     public TaskDto createTask(CreateTaskDto createTaskDto) {
         var newTask = TaskMapper.TaskFromCreateDto(createTaskDto);
@@ -38,10 +45,8 @@ public class TaskServiceImpl implements TaskService{
     }
 
     @Override
-    public TaskDto getTaskDetail(String id) {
-        var task = taskRepository.findById(UUID.fromString(id))
-                .orElseThrow(() -> new NotFoundException("Task not found"));
-        return TaskMapper.TaskToDto(task);
+    public TaskDto getTaskDetail(UUID id) {
+        return TaskMapper.TaskToDto(findTaskById(id));
     }
 
     @Override
@@ -54,7 +59,48 @@ public class TaskServiceImpl implements TaskService{
         return commonMapper.pageToDto(result);
     }
 
+    @Override
+    public void deleteTask(UUID taskId) {
+        taskRepository.deleteById(taskId);
+    }
 
+    @Override
+    public TaskDto updateTask(UUID taskId, UpdateTaskDto updateTaskDto) {
+        Task existTask = this.findTaskById(taskId);
+        if (existTask.getStatus().equals(TaskStatus.COMPLETED)){
+            throw new PreConditionFailedException("can't update completed task");
+        }
+        if (commonUtil.isPresent(updateTaskDto.getName())){
+           existTask.setName(updateTaskDto.getName());
+        }
+        if (commonUtil.isPresent(updateTaskDto.getDescription())){
+            existTask.setDescription(updateTaskDto.getDescription());
+        }
+        if (commonUtil.isPresent(updateTaskDto.getDifficulty())){
+            existTask.setDifficulty(updateTaskDto.getDifficulty());
+        }
+        if (commonUtil.isPresent(updateTaskDto.getCoinReward())){
+            existTask.setCoinReward(updateTaskDto.getCoinReward());
+        }
+        if (commonUtil.isPresent(updateTaskDto.getImportance())){
+            existTask.setImportance(updateTaskDto.getImportance());
+        }
+        if (commonUtil.isPresent(updateTaskDto.getDeadline())){
+            if (updateTaskDto.getDeadline().isBefore(OffsetDateTime.now())){
+                throw new PreConditionFailedException("Deadline is not valid");
+            }
+            existTask.setDeadline(updateTaskDto.getDeadline());
+        }
+
+
+        taskRepository.save(existTask);
+        return getTaskDetail(taskId);
+    }
+
+    private Task findTaskById(UUID taskId){
+        return taskRepository.findById(taskId)
+                .orElseThrow(() -> new NotFoundException("Task not found"));
+    }
 
     private Specification<Task> buildTaskQuerySpecification(List<Query> queryList) {
         Specification<Task> spec = null;

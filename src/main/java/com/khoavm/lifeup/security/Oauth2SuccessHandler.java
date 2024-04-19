@@ -1,4 +1,4 @@
-package com.khoavm.lifeup.config.security;
+package com.khoavm.lifeup.security;
 
 import com.khoavm.lifeup.module.common.dto.OAuth2Provider;
 import com.khoavm.lifeup.module.user.service.UserService;

@@ -17,7 +17,7 @@ public class ResponseUtil {
         var responseBody = new ResponseDto<T>();
         responseBody.setMessage(message);
         responseBody.setData(data);
-        responseBody.setStatusCode(status.value());
+        responseBody.setStatusCode(status);
         return ResponseEntity.status(status).body(responseBody);
     }
 }

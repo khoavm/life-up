@@ -1,13 +1,14 @@
-package com.khoavm.lifeup.config.security;
+package com.khoavm.lifeup.config.context;
 
+import com.khoavm.lifeup.config.context.Context;
 import com.khoavm.lifeup.module.common.dto.Query;
+import com.khoavm.lifeup.security.AuthenticationDetail;
 import io.micrometer.tracing.Tracer;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +19,7 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @Component
-public class ContextImpl implements  Context {
+public class ContextImpl implements Context {
 
 
     HttpServletRequest request;

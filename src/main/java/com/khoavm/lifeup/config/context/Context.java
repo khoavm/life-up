@@ -1,4 +1,4 @@
-package com.khoavm.lifeup.config.security;
+package com.khoavm.lifeup.config.context;
 
 import com.khoavm.lifeup.module.common.dto.Query;
 import org.springframework.data.domain.Pageable;

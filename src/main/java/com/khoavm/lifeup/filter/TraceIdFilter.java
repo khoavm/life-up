@@ -1,8 +1,6 @@
 package com.khoavm.lifeup.filter;
 
-import com.khoavm.lifeup.config.security.Context;
-import io.micrometer.tracing.Span;
-import io.micrometer.tracing.Tracer;
+import com.khoavm.lifeup.config.context.Context;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Objects;
 
 @AllArgsConstructor
 @Component

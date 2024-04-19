@@ -5,7 +5,8 @@ import org.springframework.stereotype.Component;
 import java.security.SecureRandom;
 
 
-public class Util {
+@Component
+public class CommonUtil {
     public static String generateSecureRandomString(int length) {
         String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         int numberOfChars = alphabet.length();
@@ -17,4 +18,14 @@ public class Util {
         }
         return sb.toString();
     }
+
+    public <T> boolean isEmpty(T value){
+        return value == null;
+    }
+
+    public <T> boolean isPresent(T value){
+        return !isEmpty(value);
+    }
+
+
 }

@@ -1,4 +1,4 @@
-package com.khoavm.lifeup.exception;
+package com.khoavm.lifeup.config.response;
 
 import com.khoavm.lifeup.exception.CustomException;
 import com.khoavm.lifeup.module.common.dto.ResponseDto;

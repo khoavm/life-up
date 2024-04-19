@@ -1,21 +1,16 @@
-package com.khoavm.lifeup.config.security;
+package com.khoavm.lifeup.security;
 
 import com.khoavm.lifeup.module.user.entity.User;
 import com.khoavm.lifeup.module.user.repository.UserRepository;
-import com.khoavm.lifeup.module.user.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.Optional;
 
 @AllArgsConstructor

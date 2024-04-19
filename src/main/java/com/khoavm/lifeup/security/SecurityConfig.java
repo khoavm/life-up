@@ -1,4 +1,4 @@
-package com.khoavm.lifeup.config.security;
+package com.khoavm.lifeup.security;
 
 import com.khoavm.lifeup.filter.JWTValidatorFilter;
 import com.khoavm.lifeup.filter.JwtGeneratorFilter;
@@ -30,8 +30,8 @@ public class SecurityConfig {
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
                         httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/user/login", "/user/sign-up", "/login/oauth2/code/google").permitAll()
-                        .requestMatchers("/user/google", "/task", "/task/**", "/user/test").authenticated()
+                        .requestMatchers("/user/login", "/user/sign-up", "/login/oauth2/code/google", "/user/test").permitAll()
+                        .requestMatchers("/user/google", "/task", "/task/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(traceIdFilter, BasicAuthenticationFilter.class)

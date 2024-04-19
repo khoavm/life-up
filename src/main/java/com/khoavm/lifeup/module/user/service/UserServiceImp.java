@@ -2,7 +2,7 @@ package com.khoavm.lifeup.module.user.service;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.khoavm.lifeup.config.security.Context;
+import com.khoavm.lifeup.config.context.Context;
 import com.khoavm.lifeup.module.common.dto.GoogleUser;
 import com.khoavm.lifeup.module.common.dto.JwtAdditionalClaim;
 import com.khoavm.lifeup.module.common.dto.OAuth2Provider;
@@ -13,7 +13,7 @@ import com.khoavm.lifeup.module.user.mapper.UserMapper;
 import com.khoavm.lifeup.module.user.repository.UserCredentialRepository;
 import com.khoavm.lifeup.module.user.repository.UserRepository;
 import com.khoavm.lifeup.util.JwtTokenUtil;
-import com.khoavm.lifeup.util.Util;
+import com.khoavm.lifeup.util.CommonUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,9 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
-import java.time.Instant;
 import java.time.OffsetDateTime;
-import java.util.Date;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -93,7 +91,7 @@ public class UserServiceImp implements UserService {
                     User newUser = new User();
                     newUser.setId(UUID.randomUUID());
                     newUser.setEmail(googleUser.getEmail());
-                    newUser.setUsername(Util.generateSecureRandomString(10));
+                    newUser.setUsername(CommonUtil.generateSecureRandomString(10));
                     return userRepository.save(newUser);
                 });
         userCredentialRepository.findByProviderAndUser_Id(OAuth2Provider.GOOGLE, existUser.getId())

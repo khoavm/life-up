@@ -8,6 +8,7 @@ import com.khoavm.lifeup.module.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +21,8 @@ public class UserController {
 
     private final UserService userService;
     @GetMapping("/test")
-    public ResponseEntity<ResponseDto<String>> createHabit(){
-        return ResponseUtil.Created("ok");
+    public String test(){
+        return "vip";
     }
 
     @PostMapping("/sign-up")

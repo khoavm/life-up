@@ -8,22 +8,20 @@ import org.springframework.http.HttpStatusCode;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 public class ResponseDto <T>{
     private Integer statusCode;
     private T data;
     private String message;
 
-    public ResponseDto() {
-
+    public ResponseDto(HttpStatusCode statusCode, T data, String message) {
+        this.statusCode = statusCode.value();
+        this.data = data;
+        this.message = message;
     }
 
-    public static <T> ResponseDto<T> CreatedResponse(T data){
-        return new ResponseDto<>(HttpStatus.CREATED.value(), data, "Create Successfully");
-    }
-
-    public static <T> ResponseDto<T> OkResponse(T data){
-        return new ResponseDto<>(HttpStatus.OK.value(), data, "Create Successfully");
+    public void setStatusCode(HttpStatusCode status){
+        this.statusCode = status.value();
     }
 
 }

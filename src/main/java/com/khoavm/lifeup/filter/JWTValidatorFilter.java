@@ -1,13 +1,14 @@
 package com.khoavm.lifeup.filter;
 
-import com.khoavm.lifeup.security.AuthenticationDetail;
+import com.khoavm.lifeup.exception.UnAuthenticatedException;
+import com.khoavm.lifeup.infra.redis.RedisService;
+import com.khoavm.lifeup.config.security.AuthenticationDetail;
 import com.khoavm.lifeup.util.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,7 @@ import java.util.stream.Stream;
 public class JWTValidatorFilter extends OncePerRequestFilter {
 
     private final JwtTokenUtil jwtTokenUtil;
+    private final RedisService redisService;
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -32,6 +34,9 @@ public class JWTValidatorFilter extends OncePerRequestFilter {
             return;
         }
         jwt = jwt.replace("Bearer ", "");
+        if (redisService.isTokenInBlackList(jwt)){
+            throw new UnAuthenticatedException("User has logged out");
+        }
         try {
 
             var claims = jwtTokenUtil.parseJwtToken(jwt);
@@ -46,7 +51,7 @@ public class JWTValidatorFilter extends OncePerRequestFilter {
             auth.setDetails(authenticationDetail);
             SecurityContextHolder.getContext().setAuthentication(auth);
         } catch (Exception e) {
-            throw new BadCredentialsException("Invalid Token received!");
+            throw new UnAuthenticatedException("Invalid Token received!");
         }
 
         chain.doFilter(request, response);

@@ -1,12 +1,9 @@
-package com.khoavm.lifeup.security;
+package com.khoavm.lifeup.config.security;
 
-import com.khoavm.lifeup.module.common.dto.OAuth2Provider;
 import com.khoavm.lifeup.module.user.service.UserService;
-import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;

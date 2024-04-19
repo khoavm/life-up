@@ -1,7 +1,7 @@
 package com.khoavm.lifeup.filter;
 
 import com.khoavm.lifeup.config.context.Context;
-import com.khoavm.lifeup.module.common.dto.JwtAdditionalClaim;
+import com.khoavm.lifeup.config.security.JwtAdditionalClaim;
 import com.khoavm.lifeup.util.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

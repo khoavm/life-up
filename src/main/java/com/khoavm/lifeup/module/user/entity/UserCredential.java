@@ -1,6 +1,6 @@
 package com.khoavm.lifeup.module.user.entity;
 
-import com.khoavm.lifeup.module.common.dto.OAuth2Provider;
+import com.khoavm.lifeup.config.security.OAuth2Provider;
 import com.khoavm.lifeup.module.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;

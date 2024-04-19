@@ -3,9 +3,11 @@ package com.khoavm.lifeup.module.user.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.khoavm.lifeup.config.context.Context;
-import com.khoavm.lifeup.module.common.dto.GoogleUser;
-import com.khoavm.lifeup.module.common.dto.JwtAdditionalClaim;
-import com.khoavm.lifeup.module.common.dto.OAuth2Provider;
+import com.khoavm.lifeup.exception.NotFoundException;
+import com.khoavm.lifeup.infra.redis.RedisService;
+import com.khoavm.lifeup.config.security.GoogleUser;
+import com.khoavm.lifeup.config.security.JwtAdditionalClaim;
+import com.khoavm.lifeup.config.security.OAuth2Provider;
 import com.khoavm.lifeup.module.user.dto.UserDto;
 import com.khoavm.lifeup.module.user.entity.User;
 import com.khoavm.lifeup.module.user.entity.UserCredential;
@@ -14,6 +16,7 @@ import com.khoavm.lifeup.module.user.repository.UserCredentialRepository;
 import com.khoavm.lifeup.module.user.repository.UserRepository;
 import com.khoavm.lifeup.util.JwtTokenUtil;
 import com.khoavm.lifeup.util.CommonUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,8 +38,9 @@ public class UserServiceImp implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtil jwtTokenUtil;
     private final ObjectMapper mapper;
-
+    private HttpServletRequest request;
     private final Context context;
+    private final RedisService redisService;
     @Override
     public UserDto getUserDetailByUsernameOrEmailOrPhone(String text) {
         var userInfo = userRepository.findByUsernameOrEmailOrPhone(text, text, text)
@@ -83,6 +87,17 @@ public class UserServiceImp implements UserService {
         return getUserDetailById(context.getUserId());
     }
 
+    @Override
+    public void logout() {
+        String jwt = request.getHeader("Authorization");
+        if (jwt == null || jwt.isEmpty()){
+            throw new NotFoundException("not found jwt token");
+        }
+        jwt = jwt.replace("Bearer ", "");
+        redisService.addBlackListToken(jwt);
+
+    }
+
     private String handleGoogleCallBack(OAuth2AuthenticationToken token){
         var oAuth2UserAttribute = token.getPrincipal().getAttributes();
         GoogleUser googleUser = mapper.convertValue(oAuth2UserAttribute, GoogleUser.class);
@@ -107,4 +122,6 @@ public class UserServiceImp implements UserService {
         JwtAdditionalClaim jwtAdditionalClaim = new JwtAdditionalClaim(existUser.getId(), existUser.getUsername());
         return jwtTokenUtil.genToken(jwtAdditionalClaim);
     }
+
+
 }

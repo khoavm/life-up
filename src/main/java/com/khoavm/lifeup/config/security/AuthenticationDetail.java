@@ -1,4 +1,4 @@
-package com.khoavm.lifeup.security;
+package com.khoavm.lifeup.config.security;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

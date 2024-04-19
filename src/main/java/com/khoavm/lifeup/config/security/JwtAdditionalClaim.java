@@ -1,4 +1,4 @@
-package com.khoavm.lifeup.module.common.dto;
+package com.khoavm.lifeup.config.security;
 
 import lombok.NonNull;
 import lombok.Value;

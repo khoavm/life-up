@@ -1,4 +1,4 @@
-package com.khoavm.lifeup.security;
+package com.khoavm.lifeup.config.security;
 
 import com.khoavm.lifeup.module.user.entity.User;
 import com.khoavm.lifeup.module.user.repository.UserRepository;

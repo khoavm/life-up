@@ -37,5 +37,11 @@ public class UserController {
         return ResponseUtil.Ok(userInfo);
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<ResponseDto<Object>> logout(){
+        userService.logout();
+        return null;
+    }
+
 
 }

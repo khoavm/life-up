@@ -1,8 +1,7 @@
 package com.khoavm.lifeup.config.context;
 
-import com.khoavm.lifeup.config.context.Context;
 import com.khoavm.lifeup.module.common.dto.Query;
-import com.khoavm.lifeup.security.AuthenticationDetail;
+import com.khoavm.lifeup.config.security.AuthenticationDetail;
 import io.micrometer.tracing.Tracer;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;

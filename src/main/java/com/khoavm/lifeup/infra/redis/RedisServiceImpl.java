@@ -25,6 +25,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public boolean isTokenInBlackList(String token) {
-        return tokenBlackListRepository.existsByToken(token);
+        var result = tokenBlackListRepository.findById(token);
+        return result.isPresent();
     }
 }

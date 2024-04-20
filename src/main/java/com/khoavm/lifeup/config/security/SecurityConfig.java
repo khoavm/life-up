@@ -23,8 +23,8 @@ public class SecurityConfig {
     private final TraceIdFilter traceIdFilter;
     private final JwtGeneratorFilter jwtGeneratorFilter;
     private final JWTValidatorFilter jwtValidatorFilter;
-    private final ExceptionFilter exceptionFilter;
     private final Oauth2SuccessHandler oAuth2AuthenticationSuccessHandler;
+    private final ExceptionFilter exceptionFilter;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -36,6 +36,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
 
                 )
+                //.exceptionHandling(e -> e.authenticationEntryPoint(authEntryPoint))
                 .addFilterBefore(exceptionFilter, BasicAuthenticationFilter.class)
                 .addFilterBefore(traceIdFilter, BasicAuthenticationFilter.class)
                 .addFilterBefore(jwtValidatorFilter, BasicAuthenticationFilter.class)
